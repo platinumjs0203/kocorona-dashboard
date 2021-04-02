@@ -14,7 +14,6 @@ stylesheets = [
 # 바 그래프
 bar_graph = px.bar(totals_df, x="condition", y="count",
                    template="plotly_dark",
-                   title="Total Global Cases",
                    hover_data={"count": ":,"},
                    labels={
                        "condition": "Condition",
@@ -22,6 +21,15 @@ bar_graph = px.bar(totals_df, x="condition", y="count",
                    }
                    )
 bar_graph.update_traces(marker_color=["#f8895a", "#ef5059", "#eed391"])
+bar_graph.update_layout(
+    title={
+        "text": "Total Global Cases",
+        'y': 0.93,
+        'x': 0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'
+    }
+)
 
 # 맵 그래프
 map_graph = px.scatter_geo(countries_df,
@@ -40,7 +48,14 @@ map_graph = px.scatter_geo(countries_df,
                                "Country_Region": False
                            })
 map_graph.update_layout(
-    margin=dict(l=10, r=10, t=50, b=0)
+    margin=dict(l=10, r=10, t=50, b=0),
+    title={
+        "text": "Confirmed By Country",
+        'y': 0.96,
+        'x': 0.465,
+        'xanchor': 'center',
+        'yanchor': 'top'
+    }
 )
 
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
@@ -77,7 +92,6 @@ app.layout = html.Div(
         html.Div(
             style={
                 "display": "grid",
-                "gap": 30,
                 "gridTemplateColumns": "repeat(4, 1fr)"
             },
             children=[
@@ -85,12 +99,15 @@ app.layout = html.Div(
                     style={},
                     children=[dcc.Graph(figure=bar_graph)]),
                 html.Div(
-                    style={"grid-column-start": "span 3"},
+                    style={"grid-column-start": "span 3",
+                           "display": "grid",
+                           "gridTemplateRows": "repeat(12, 1fr)"},
                     children=[
                         dcc.Dropdown(
                             style={
-                                "width": 320,
-                                "color": "#111111"
+                                "width": 300,
+                                "color": "#111111",
+                                "padding-left": "45px"
                             },
                             placeholder="Select a Country",
                             id="country",
@@ -99,7 +116,8 @@ app.layout = html.Div(
                                 for country in dropdown_options
                             ]
                         ),
-                        dcc.Graph(id="country-graph")
+                        dcc.Graph(id="country-graph",
+                                  style={"grid-row-start": "span 11"})
                     ]
                 )
             ]
