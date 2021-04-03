@@ -60,6 +60,8 @@ map_graph.update_layout(
 
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
+server = app.server
+
 app.layout = html.Div(
     style={
         "minHeight": "100vh",
@@ -152,7 +154,3 @@ def update_graph(value):
     fig["data"][1]["line"]["color"] = "#3498db"
     fig["data"][2]["line"]["color"] = "#2ecc71"
     return fig
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
