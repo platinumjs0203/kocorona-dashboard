@@ -60,6 +60,8 @@ map_graph.update_layout(
 
 app = dash.Dash(__name__, external_stylesheets=stylesheets)
 
+app.title = "Kocorona-Dashboard"
+
 server = app.server
 
 app.layout = html.Div(
